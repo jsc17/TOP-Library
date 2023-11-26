@@ -7,11 +7,14 @@ const myLibrary = [
     read: true,
   },
 ];
+
 const themeButton = document.querySelector("#theme-button");
 const root = document.documentElement;
 const headerIcons = document.querySelectorAll(".filter-light");
 const mainLibrary = document.querySelector("main");
 const addButton = document.querySelector("#add");
+const modal = document.querySelector("#add-book-modal");
+const addBookForm = document.querySelector("#add-book-form");
 
 themeButton.addEventListener("click", function () {
   if (root.classList.contains("light")) {
@@ -65,7 +68,23 @@ function addBookToLibrary(book) {
 
 createBookCard(myLibrary[0]);
 
-add.addEventListener("click", () => {
-  let book = new Book("Ender's game", "Orson Scott Card", 324, 1985, true);
-  addBookToLibrary(book);
+addButton.addEventListener("click", () => {
+  modal.showModal();
+});
+
+addBookForm.addEventListener("submit", () => {
+  let formData = new FormData(addBookForm);
+  let newBook = new Book(
+    formData.get("title"),
+    formData.get("author"),
+    formData.get("pages"),
+    formData.get("date"),
+    formData.get("read")
+  );
+  addBookToLibrary(newBook);
+  addBookForm.reset();
+});
+
+addBookForm.addEventListener("reset", () => {
+  modal.close();
 });
