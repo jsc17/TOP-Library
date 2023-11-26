@@ -1,7 +1,17 @@
-const myLibrary = [];
+const myLibrary = [
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: true,
+  },
+];
 const themeButton = document.querySelector("#theme-button");
 const root = document.documentElement;
 const headerIcons = document.querySelectorAll(".filter-light");
+const mainLibrary = document.querySelector("main");
+const addButton = document.querySelector("#add");
 
 themeButton.addEventListener("click", function () {
   if (root.classList.contains("light")) {
@@ -27,18 +37,35 @@ function Book(title, author, pages, date, read) {
   this.pages = pages;
   this.date = date;
   this.read = read;
-  this.info = function () {
-    let infoString =
-      this.title + " by " + this.author + ", " + this.pages + " pages, ";
-    if (read) {
-      infoString += "already read";
-    } else {
-      infoString += "not yet read";
-    }
-    return infoString;
-  };
+}
+
+function createBookCard(book) {
+  let card = document.createElement("div");
+  card.classList.add("book");
+  if (book.read) {
+    card.classList.add("read");
+  } else {
+    card.classList.add("unread");
+  }
+  card.appendChild(document.createElement("h2")).innerHTML = book.title;
+  card.appendChild(document.createElement("p")).innerHTML =
+    "By: " + book.author;
+  card.appendChild(document.createElement("p")).innerHTML =
+    "Number of pages: " + book.pages;
+  card.appendChild(document.createElement("p")).innerHTML =
+    "Published: " + book.date;
+  console.log(mainLibrary.lastChild);
+  mainLibrary.insertBefore(card, mainLibrary.lastElementChild);
 }
 
 function addBookToLibrary(book) {
   myLibrary.push(book);
+  createBookCard(book);
 }
+
+createBookCard(myLibrary[0]);
+
+add.addEventListener("click", () => {
+  let book = new Book("Ender's game", "Orson Scott Card", 324, 1985, true);
+  addBookToLibrary(book);
+});

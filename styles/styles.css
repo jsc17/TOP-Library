@@ -36,7 +36,7 @@ header {
 
 main {
   display: grid;
-  grid-template-columns: repeat(auto-fill, 350px);
+  grid-template-columns: repeat(auto-fill, 325px);
   grid-auto-rows: 200px;
   padding: 32px;
   gap: 24px;
@@ -84,7 +84,7 @@ img {
   justify-content: center;
   gap: 8px;
   height: 200px;
-  width: 350px;
+  width: 325px;
   background-color: var(--book-bg-color);
   border-radius: 16px;
   padding: 24px;
