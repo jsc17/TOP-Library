@@ -142,6 +142,7 @@ img {
   width: 325px;
   border-radius: 16px;
   padding: 24px;
+  background-color: var(--book-unread-bg-color);
 }
 
 #add {
@@ -154,11 +155,6 @@ img {
 .read {
   background-color: var(--book-read-bg-color);
 }
-
-.unread {
-  background-color: var(--book-unread-bg-color);
-}
-
 .book h2 {
   color: var(--book-text-color);
   font-size: 1.5rem;
