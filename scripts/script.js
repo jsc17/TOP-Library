@@ -6,33 +6,142 @@ const myLibrary = [
     date: 2006,
     read: true,
   },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: true,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: true,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: true,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: true,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: true,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
+  {
+    title: "The Lost Fleet: Dauntless",
+    author: "Jack Campbell",
+    pages: 304,
+    date: 2006,
+    read: false,
+  },
 ];
 
-const themeButton = document.querySelector("#theme-button");
 const root = document.documentElement;
-const headerIcons = document.querySelectorAll(".filter-light");
-const mainLibrary = document.querySelector("main");
-const addButton = document.querySelector("#add");
+const mainLibrary = document.querySelector(".book-container");
 const modal = document.querySelector("#add-book-modal");
 const addBookForm = document.querySelector("#add-book-form");
 
-themeButton.addEventListener("click", function () {
-  if (root.classList.contains("light")) {
-    root.classList.remove("light");
-    root.classList.add("dark");
-    headerIcons.forEach((icon) => {
-      icon.classList.remove("filter-light");
-      icon.classList.add("filter-dark");
-    });
-  } else {
-    root.classList.remove("dark");
-    root.classList.add("light");
-    headerIcons.forEach((icon) => {
-      icon.classList.remove("filter-dark");
-      icon.classList.add("filter-light");
-    });
-  }
-});
+let read = 0;
+let unread = 0;
+let total = 0;
 
 function Book(title, author, pages, date, read) {
   this.title = title;
@@ -50,14 +159,21 @@ function createBookCard(book) {
   } else {
     card.classList.add("unread");
   }
-  card.appendChild(document.createElement("h2")).innerHTML = book.title;
-  card.appendChild(document.createElement("p")).innerHTML =
+  let cardDetails = document.createElement("div");
+  cardDetails.classList.add(".book-details");
+  cardDetails.appendChild(document.createElement("h2")).innerHTML = book.title;
+  cardDetails.appendChild(document.createElement("p")).innerHTML =
     "By: " + book.author;
-  card.appendChild(document.createElement("p")).innerHTML =
+  cardDetails.appendChild(document.createElement("p")).innerHTML =
     "Number of pages: " + book.pages;
-  card.appendChild(document.createElement("p")).innerHTML =
+  cardDetails.appendChild(document.createElement("p")).innerHTML =
     "Published: " + book.date;
-  console.log(mainLibrary.lastChild);
+  card.appendChild(cardDetails);
+  let cardButtons = document.createElement("div");
+  cardButtons.classList.add("book-buttons");
+  cardButtons.appendChild(document.createElement("button"));
+  cardButtons.appendChild(document.createElement("button"));
+  card.appendChild(cardButtons);
   mainLibrary.insertBefore(card, mainLibrary.lastElementChild);
 }
 
@@ -66,10 +182,14 @@ function addBookToLibrary(book) {
   createBookCard(book);
 }
 
-createBookCard(myLibrary[0]);
+myLibrary.forEach((book) => {
+  createBookCard(book);
+});
 
-addButton.addEventListener("click", () => {
-  modal.showModal();
+document.querySelectorAll(".show-add").forEach((button) => {
+  button.addEventListener("click", () => {
+    modal.showModal();
+  });
 });
 
 addBookForm.addEventListener("submit", () => {
@@ -87,4 +207,14 @@ addBookForm.addEventListener("submit", () => {
 
 addBookForm.addEventListener("reset", () => {
   modal.close();
+});
+
+document.querySelector("#theme-button").addEventListener("click", function () {
+  if (root.classList.contains("light")) {
+    root.classList.remove("light");
+    root.classList.add("dark");
+  } else {
+    root.classList.remove("dark");
+    root.classList.add("light");
+  }
 });
