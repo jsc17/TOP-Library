@@ -100,7 +100,8 @@ footer img {
 
 p,
 a:link,
-a:visited {
+a:visited,
+label {
   color: var(--text-color);
 }
 
@@ -136,13 +137,13 @@ img {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 8px;
+  justify-content: space-between;
   height: 200px;
   width: 325px;
   border-radius: 16px;
   padding: 24px;
   background-color: var(--book-unread-bg-color);
+  position: relative;
 }
 
 #add {
@@ -150,6 +151,21 @@ img {
   background-color: gray;
   color: white;
   font-size: 5rem;
+  justify-content: center;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.book-buttons {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
 }
 
 .read {

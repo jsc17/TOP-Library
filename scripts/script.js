@@ -4,6 +4,8 @@ const root = document.documentElement;
 const mainLibrary = document.querySelector(".book-container");
 const modal = document.querySelector("#add-book-modal");
 const addBookForm = document.querySelector("#add-book-form");
+const libraryInfo = document.querySelector(".library-info");
+const filter = document.querySelector("#sort-by");
 
 function Book(id, title, author, pages, date, read) {
   this.id = id;
@@ -20,6 +22,7 @@ function Book(id, title, author, pages, date, read) {
     } else {
       card.classList.remove("read");
     }
+    updateInfo();
   };
 }
 
@@ -43,7 +46,7 @@ function createBookCard(book) {
 
   //create title and book detail elements and add them to the card
   let cardDetails = document.createElement("div");
-  cardDetails.classList.add(".book-details");
+  cardDetails.classList.add("book-details");
   cardDetails.appendChild(document.createElement("h2")).innerHTML = book.title;
   cardDetails.appendChild(document.createElement("p")).innerHTML =
     "By: " + book.author;
@@ -59,13 +62,13 @@ function createBookCard(book) {
   tempButton = document.createElement("button");
   tempButton.innerHTML = "Read";
   tempButton.addEventListener("click", function (e) {
-    const id = parseInt(
-      e.target.parentElement.parentElement.getAttribute("data-id")
-    );
+    const id = e.target.parentElement.parentElement.getAttribute("data-id");
 
-    myLibrary.find((book) => {
-      return parseInt(book.id) == id;
-    }).toggleRead;
+    myLibrary
+      .find((book) => {
+        return book.id == id;
+      })
+      .toggleRead();
   });
   cardButtons.appendChild(tempButton);
   tempButton = document.createElement("button");
@@ -76,7 +79,8 @@ function createBookCard(book) {
   });
   cardButtons.appendChild(tempButton);
   card.appendChild(cardButtons);
-  mainLibrary.insertBefore(card, mainLibrary.lastElementChild);
+
+  return card;
 }
 
 function removeBook(id) {
@@ -84,16 +88,52 @@ function removeBook(id) {
   myLibrary = myLibrary.filter((book) => {
     return parseInt(book.id) != id;
   });
+  updateInfo();
+}
+
+function updateInfo() {
+  let read = 0,
+    unread = 0,
+    total = myLibrary.length;
+  myLibrary.forEach((book) => {
+    if (book.read) {
+      read++;
+    } else {
+      unread++;
+    }
+  });
+
+  libraryInfo.children[0].innerText = "Read Books: " + read;
+  libraryInfo.children[1].innerText = "Unread Books: " + unread;
+  libraryInfo.children[2].innerText = "Total Books: " + total;
 }
 
 function addBookToLibrary(book) {
   myLibrary.push(book);
-  createBookCard(book);
+  mainLibrary.insertBefore(createBookCard(book), mainLibrary.lastElementChild);
+  updateInfo();
 }
 
-myLibrary.forEach((book) => {
-  createBookCard(book);
-});
+function createAddCard() {
+  let addCard = document.createElement("div");
+  addCard.id = "add";
+  addCard.classList.add("show-add");
+  addCard.addEventListener("click", () => {
+    modal.showModal();
+  });
+  addCard.innerText = "+";
+  mainLibrary.appendChild(addCard);
+}
+
+function rebuildLibrary() {
+  while (mainLibrary.firstChild) {
+    mainLibrary.removeChild(mainLibrary.firstChild);
+  }
+  myLibrary.forEach((book) => {
+    mainLibrary.appendChild(createBookCard(book));
+  });
+  createAddCard();
+}
 
 document.querySelectorAll(".show-add").forEach((button) => {
   button.addEventListener("click", () => {
@@ -128,3 +168,23 @@ document.querySelector("#theme-button").addEventListener("click", function () {
     root.classList.add("light");
   }
 });
+
+filter.addEventListener("change", function () {
+  sortKey = filter.value;
+
+  myLibrary.sort(function (a, b) {
+    let result = a[sortKey] < b[sortKey] ? -1 : a[sortKey] > b[sortKey] ? 1 : 0;
+    return result;
+  });
+
+  console.table(myLibrary);
+
+  rebuildLibrary();
+});
+
+addBookToLibrary(new Book(generateID(), "y", "f", 734, 752, true));
+addBookToLibrary(new Book(generateID(), "b", "c", 423, 252, true));
+addBookToLibrary(new Book(generateID(), "a", "z", 123, 152, true));
+addBookToLibrary(new Book(generateID(), "f", "a", 534, 552, true));
+
+createAddCard();
